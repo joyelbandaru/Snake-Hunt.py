@@ -1,4 +1,4 @@
-# Snake-Game
+# Snake-Hunt
 
 ## How the Game Works
 
