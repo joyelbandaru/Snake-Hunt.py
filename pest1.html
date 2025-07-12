@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pest Detection System with OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin: auto;
+        }
+        h1, h2 {
+            color: green;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: darkgreen;
+        }
+        #otpSection, #pestDetection {
+            display: none;
+        }
+        #alertBox {
+            display: none;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .pest-found {
+            background-color: red;
+            color: white;
+        }
+        .no-pest {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- OTP Verification Section -->
+    <div class="container" id="otpVerification">
+        <h1>Farmer OTP Verification</h1>
+        <p>Enter your registered mobile number</p>
+        <input type="text" id="mobile" placeholder="Enter Mobile Number">
+        <button onclick="sendOTP()">Send OTP</button>
+
+        <div id="otpSection">
+            <p>Enter the OTP sent to your phone</p>
+            <input type="text" id="otp" placeholder="Enter OTP">
+            <button onclick="verifyOTP()">Verify OTP</button>
+        </div>
+
+        <p id="message"></p>
+    </div>
+
+    <!-- Pest Detection System (Hidden Until OTP Verified) -->
+    <div class="container" id="pestDetection">
+        <h1>Pest Detection System</h1>
+        <p>Upload an image to detect pests</p>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="detectPest()">Detect Pest</button>
+
+        <div id="alertBox"></div>
+    </div>
+
+    <script>
+        function sendOTP() {
+            let mobile = document.getElementById("mobile").value;
+            if (mobile.length == 10) {
+                document.getElementById("otpSection").style.display = "block";
+                document.getElementById("message").innerText = "OTP sent to " + mobile;
+            } else {
+                document.getElementById("message").innerText = "Enter a valid 10-digit number.";
+            }
+        }
+
+        function verifyOTP() {
+            let otp = document.getElementById("otp").value;
+            if (otp == "1234") { // Dummy OTP for testing
+                document.getElementById("message").innerText = "✅ OTP Verified! Access Granted.";
+                document.getElementById("pestDetection").style.display = "block";
+                document.getElementById("otpVerification").style.display = "none";
+            } else {
+                document.getElementById("message").innerText = "❌ Invalid OTP. Try Again.";
+            }
+        }
+
+        function detectPest() {
+            let image = document.getElementById("imageUpload").files[0];
+            let alertBox = document.getElementById("alertBox");
+
+            if (!image) {
+                alertBox.style.display = "block";
+                alertBox.className = "pest-found";
+                alertBox.innerText = "⚠ Please upload an image first!";
+                return;
+            }
+
+            let isPestFound = Math.random() < 0.5;  // Simulated detection
+
+            if (isPestFound) {
+                alertBox.style.display = "block";
+                alertBox.className = "pest-found";
+                alertBox.innerText = "🚨 Pest Detected! Please take necessary actions.";
+            } else {
+                alertBox.style.display = "block";
+                alertBox.className = "no-pest";
+                alertBox.innerText = "✅ No pests detected. Your crop is safe.";
+            }
+        }
+    </script>
+
+</body>
+</html>
